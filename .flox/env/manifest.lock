@@ -1,0 +1,872 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.11.0",
+    "install": {
+      "awscli2": {
+        "pkg-path": "awscli2"
+      },
+      "drawio": {
+        "pkg-path": "drawio"
+      },
+      "gh": {
+        "pkg-path": "gh"
+      },
+      "jq": {
+        "pkg-path": "jq"
+      },
+      "nodejs": {
+        "pkg-path": "nodejs_22"
+      },
+      "pnpm": {
+        "pkg-path": "pnpm"
+      },
+      "terraform": {
+        "pkg-path": "terraform"
+      },
+      "xvfb": {
+        "pkg-path": "xorg.xvfb"
+      },
+      "xvfb-run": {
+        "pkg-path": "xvfb-run",
+        "systems": [
+          "x86_64-linux",
+          "aarch64-linux"
+        ]
+      }
+    },
+    "options": {
+      "systems": [
+        "aarch64-darwin",
+        "aarch64-linux",
+        "x86_64-linux"
+      ]
+    }
+  },
+  "packages": [
+    {
+      "attr_path": "awscli2",
+      "broken": false,
+      "derivation": "/nix/store/cniv46szbrixg92njb59p1pykr66nrym-awscli2-2.27.50.drv",
+      "description": "Unified tool to manage your AWS services",
+      "install_id": "awscli2",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "awscli2-2.27.50",
+      "pname": "awscli2",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:03.637535Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.27.50",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dist": "/nix/store/vz40liviv1351a89ncqzhp4xffakshqp-awscli2-2.27.50-dist",
+        "out": "/nix/store/h74q3311nclskcyrncj1kw7w747fd4jf-awscli2-2.27.50"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "awscli2",
+      "broken": false,
+      "derivation": "/nix/store/9d9y73fkqhbc8pxyp78p2z1y1v9p79ns-awscli2-2.27.50.drv",
+      "description": "Unified tool to manage your AWS services",
+      "install_id": "awscli2",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "awscli2-2.27.50",
+      "pname": "awscli2",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:20.434805Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.27.50",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dist": "/nix/store/66zcgjkx5163wxkx4q4wy2mlinnac73h-awscli2-2.27.50-dist",
+        "out": "/nix/store/csvbn708nih4310bz8xgwjh1lqykjip4-awscli2-2.27.50"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "awscli2",
+      "broken": false,
+      "derivation": "/nix/store/fzh9bz8nwzv1z2qqsw8yslj2qaxcf31d-awscli2-2.27.50.drv",
+      "description": "Unified tool to manage your AWS services",
+      "install_id": "awscli2",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "awscli2-2.27.50",
+      "pname": "awscli2",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:31.317265Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.27.50",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dist": "/nix/store/p05rkykwh1h0wfkdmqlc5dy6afqbx434-awscli2-2.27.50-dist",
+        "out": "/nix/store/84x45xrqhadw16y11xkmyy9chh4hmd5m-awscli2-2.27.50"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "drawio",
+      "broken": false,
+      "derivation": "/nix/store/5d067kv1czrdn26sfadxlwlbsinbspxz-drawio-26.1.1.drv",
+      "description": "Desktop version of draw.io for creating diagrams",
+      "install_id": "drawio",
+      "license": "[ Apache-2.0, Unfree redistributable ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "drawio-26.1.1",
+      "pname": "drawio",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:04.117899Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "26.1.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/zq0qmz70rlir6ibpd370df3bgxzbaimc-drawio-26.1.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "drawio",
+      "broken": false,
+      "derivation": "/nix/store/b1dsncmm7160bpffrrc08ki1q75npcrf-drawio-26.1.1.drv",
+      "description": "Desktop version of draw.io for creating diagrams",
+      "install_id": "drawio",
+      "license": "[ Apache-2.0, Unfree redistributable ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "drawio-26.1.1",
+      "pname": "drawio",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:21.132351Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "26.1.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/ds5s3wgln462adk25c92wg1zqilva8li-drawio-26.1.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "drawio",
+      "broken": false,
+      "derivation": "/nix/store/3w0i0mjfy2w252b10sjrq2c945c19nbk-drawio-26.1.1.drv",
+      "description": "Desktop version of draw.io for creating diagrams",
+      "install_id": "drawio",
+      "license": "[ Apache-2.0, Unfree redistributable ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "drawio-26.1.1",
+      "pname": "drawio",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:32.091825Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "26.1.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/7pj62ykdv4542l26xqlwz7fmqg9lcxs4-drawio-26.1.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gh",
+      "broken": false,
+      "derivation": "/nix/store/am36sdyz8l4s3lv9na4y6v1mbmw6skfm-gh-2.76.0.drv",
+      "description": "GitHub CLI tool",
+      "install_id": "gh",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "gh-2.76.0",
+      "pname": "gh",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:04.432079Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.76.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/ppcpy5k4mp23dfb5w62s19p7szry54i9-gh-2.76.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gh",
+      "broken": false,
+      "derivation": "/nix/store/h3j362jkk08v1v8arsf16xrdz5fsaj1c-gh-2.76.0.drv",
+      "description": "GitHub CLI tool",
+      "install_id": "gh",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "gh-2.76.0",
+      "pname": "gh",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:21.661011Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.76.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/06b3x9z1wz4j1rnlsmhnqls9w2y5khwh-gh-2.76.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gh",
+      "broken": false,
+      "derivation": "/nix/store/zrsb8napxswzjvd5z0hwinwyh7lal4ab-gh-2.76.0.drv",
+      "description": "GitHub CLI tool",
+      "install_id": "gh",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "gh-2.76.0",
+      "pname": "gh",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:32.720997Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "2.76.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/w7p6sz116m7q1akihx0ljn0yq52cfpyh-gh-2.76.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "jq",
+      "broken": false,
+      "derivation": "/nix/store/dr7yiq7ia711401wd57gmkcs3zfmg88m-jq-1.8.1.drv",
+      "description": "Lightweight and flexible command-line JSON processor",
+      "install_id": "jq",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "jq-1.8.1",
+      "pname": "jq",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:05.030401Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "1.8.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/9g64fqz8v74v5ixgalm8a074jp754423-jq-1.8.1-bin",
+        "dev": "/nix/store/97sbzpy66rngcyzdx2xnwc58fd4xanz2-jq-1.8.1-dev",
+        "doc": "/nix/store/2hc8qfk7rp04hafsr260dri1bd6ywvgc-jq-1.8.1-doc",
+        "man": "/nix/store/d6h860ssnqqm5pb18k7cha953j8v41rp-jq-1.8.1-man",
+        "out": "/nix/store/5g1fsdjybk63bvnradhy861cv1j0zvbj-jq-1.8.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "jq",
+      "broken": false,
+      "derivation": "/nix/store/f1d1sh05n7k3cydvibz1b48zqllhf388-jq-1.8.1.drv",
+      "description": "Lightweight and flexible command-line JSON processor",
+      "install_id": "jq",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "jq-1.8.1",
+      "pname": "jq",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:23.531216Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "1.8.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/l5rpi6yjzh77xr06zw3npj5b4wh8nd2r-jq-1.8.1-bin",
+        "dev": "/nix/store/lxkdipbc6lnyjfaxc8993p0f3awzaxv7-jq-1.8.1-dev",
+        "doc": "/nix/store/1lln8d94np1gvpa4xd3a7s70hpxcrjja-jq-1.8.1-doc",
+        "man": "/nix/store/df5cp877l2zda5hzs5aaj57nsb630mqj-jq-1.8.1-man",
+        "out": "/nix/store/ywm87lf11xxj4qbc26sm466cy2krazhf-jq-1.8.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "jq",
+      "broken": false,
+      "derivation": "/nix/store/n8hy5gvnrw0kzz6cjdhky3rxr0q024sh-jq-1.8.1.drv",
+      "description": "Lightweight and flexible command-line JSON processor",
+      "install_id": "jq",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "jq-1.8.1",
+      "pname": "jq",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:34.710149Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "1.8.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/ddvkwrb70cx04g7a42rlg6ka1j819kv4-jq-1.8.1-bin",
+        "dev": "/nix/store/x0kva02y0iyh7l0qvnx3l8ci7ll1r5si-jq-1.8.1-dev",
+        "doc": "/nix/store/fc6m4lbv9g4j1hfrx2yip2w83b4pjf42-jq-1.8.1-doc",
+        "man": "/nix/store/mkpcj600czkqcr542ysi8pzssadl4yrc-jq-1.8.1-man",
+        "out": "/nix/store/zrv91dsf75ixqjym4syy0f6g87wrziw7-jq-1.8.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_22",
+      "broken": false,
+      "derivation": "/nix/store/vw8bgqlyqqkrqkj3zi87g5dn3f9gdbig-nodejs-22.17.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "nodejs-22.17.0",
+      "pname": "nodejs_22",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:07.271281Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "22.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/13sy62qad5p8lhbak7lqmh5dhjakqlkd-nodejs-22.17.0-dev",
+        "libv8": "/nix/store/lavkp68zvwgbs3z6zzl31q6yzbi2hkwh-nodejs-22.17.0-libv8",
+        "out": "/nix/store/gaq6v57mm40g1974hyg1vvxgzxqh16af-nodejs-22.17.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_22",
+      "broken": false,
+      "derivation": "/nix/store/rk2qfvqapnzc8jd2y0qrk5ifs5b1vl0v-nodejs-22.17.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "nodejs-22.17.0",
+      "pname": "nodejs_22",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:31.237100Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "22.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/gv6ydjf9r179ih2npybkzxrnf6wzq77l-nodejs-22.17.0-dev",
+        "libv8": "/nix/store/zlb0n44z62k16c41xvx9yci5010jbqvc-nodejs-22.17.0-libv8",
+        "out": "/nix/store/ywi3gcwj1cjbzb9l0ixqn438z52i3qiw-nodejs-22.17.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_22",
+      "broken": false,
+      "derivation": "/nix/store/2c2yfdvdf58hhpq7363wdp039276d40m-nodejs-22.17.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "nodejs-22.17.0",
+      "pname": "nodejs_22",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:43.961940Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "22.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/gwsbdl02aszapvyykb2kcyqx71q2mj6n-nodejs-22.17.0-dev",
+        "libv8": "/nix/store/2cxsn91qbd148jsz8jjbfzq41qbl9q8j-nodejs-22.17.0-libv8",
+        "out": "/nix/store/r1smm331j6crqs02mn986g06f7cpbggh-nodejs-22.17.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/0kp0j65lzrz7slqc8q1hyh3c5c77i8zr-pnpm-10.13.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "pnpm-10.13.1",
+      "pname": "pnpm",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:12.639520Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "10.13.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/wqa2kn4a7ni8y9p293j6xwlr0111jha0-pnpm-10.13.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/a9p6bfff3fzhq0fs8kypi4h3c81wblhi-pnpm-10.13.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "pnpm-10.13.1",
+      "pname": "pnpm",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:52:41.005329Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "10.13.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/91nil2hyw90n1yxkr9myd70kxb3cvadc-pnpm-10.13.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/bs0674xgzvv0p245w6rhcg5i3h3srq3k-pnpm-10.13.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "pnpm-10.13.1",
+      "pname": "pnpm",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:36:54.585558Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "10.13.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/cdm1ypkmixsyvzj42p8has6j7884z6gv-pnpm-10.13.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "terraform",
+      "broken": false,
+      "derivation": "/nix/store/25z6fiqi9q2spqnni5ay7mdzwwmskpxd-terraform-1.12.2.drv",
+      "description": "Tool for building, changing, and versioning infrastructure",
+      "install_id": "terraform",
+      "license": "BUSL-1.1",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "terraform-1.12.2",
+      "pname": "terraform",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:29:48.856273Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "1.12.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/mm2c99sw758j0kqbmwcl1aydh2x308x4-terraform-1.12.2"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "terraform",
+      "broken": false,
+      "derivation": "/nix/store/6hr1cka74dfkg9vlv3pfnrjxxdrgrm4y-terraform-1.12.2.drv",
+      "description": "Tool for building, changing, and versioning infrastructure",
+      "install_id": "terraform",
+      "license": "BUSL-1.1",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "terraform-1.12.2",
+      "pname": "terraform",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:53:31.251270Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "1.12.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/p423g613paxs9ldbnkr5mcxrgb5ilwfh-terraform-1.12.2"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "terraform",
+      "broken": false,
+      "derivation": "/nix/store/izp8qm7ckvwjjnmp1ki1h4kaml53cab7-terraform-1.12.2.drv",
+      "description": "Tool for building, changing, and versioning infrastructure",
+      "install_id": "terraform",
+      "license": "BUSL-1.1",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "terraform-1.12.2",
+      "pname": "terraform",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:37:48.220497Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": true,
+      "version": "1.12.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/r827xxb0f2xkkizh71ijgwcm4g2lybwi-terraform-1.12.2"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "xorg.xvfb",
+      "broken": false,
+      "derivation": "/nix/store/alvnziz8np0zlimm1jz0x7in4ssi7z6i-xorg-server-21.1.18.drv",
+      "install_id": "xvfb",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "xorg-server-21.1.18",
+      "pname": "xvfb",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:30:11.800451Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "21.1.18",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/kpksf94z9arbg4f1sl9fafb7qi3fqsnv-xorg-server-21.1.18"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "xorg.xvfb",
+      "broken": false,
+      "derivation": "/nix/store/3vy3szwc1qqwh6lr3h0xnbdpab8x8l7x-xorg-server-21.1.18.drv",
+      "install_id": "xvfb",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "xorg-server-21.1.18",
+      "pname": "xvfb",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:54:01.707874Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "21.1.18",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/fhjsy8nbnn1qh46n1nyp1jwh96cjl4lf-xorg-server-21.1.18"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "xorg.xvfb",
+      "broken": false,
+      "derivation": "/nix/store/2nhkl1cxb2x7ciwx0mw58sd259qflgxf-xorg-server-21.1.18.drv",
+      "install_id": "xvfb",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "xorg-server-21.1.18",
+      "pname": "xvfb",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:38:20.400186Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "21.1.18",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/mnlfc8wkzymr5f3dl1csvr8i0gaxz7yq-xorg-server-21.1.18"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "xvfb-run",
+      "broken": false,
+      "derivation": "/nix/store/mn24iikz58x96wblgyjp1lc3j8rdvi4x-xvfb-run-1+g87f6705.drv",
+      "description": "Convenience script to run a virtualized X-Server",
+      "install_id": "xvfb-run",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "xvfb-run-1+g87f6705",
+      "pname": "xvfb-run",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T00:54:01.955501Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "1+g87f6705",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/sm7912gcl2599vayc46gr8bfbr3qc80f-xvfb-run-1+g87f6705"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "xvfb-run",
+      "broken": false,
+      "derivation": "/nix/store/35jr4ba89z648hmgy6qmk7ngy64j334z-xvfb-run-1+g87f6705.drv",
+      "description": "Convenience script to run a virtualized X-Server",
+      "install_id": "xvfb-run",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "name": "xvfb-run-1+g87f6705",
+      "pname": "xvfb-run",
+      "rev": "fc02ee70efb805d3b2865908a13ddd4474557ecf",
+      "rev_count": 833752,
+      "rev_date": "2025-07-23T06:00:50Z",
+      "scrape_date": "2025-07-25T01:38:20.669512Z",
+      "stabilities": [
+        "unstable",
+        "staging",
+        "stable"
+      ],
+      "unfree": false,
+      "version": "1+g87f6705",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/q4jj760hs8a2ii770kjxlnq63055zndr-xvfb-run-1+g87f6705"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}

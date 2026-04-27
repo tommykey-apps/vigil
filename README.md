@@ -1,29 +1,40 @@
-# hookwatch
+# vigil
 
-Webhook inspector — 一意の受信 URL を払い出し、届いた HTTP リクエストをリアルタイムに可視化するサービス。開発時に外部 SaaS の webhook をデバッグするための道具。
+Indie hacker 向けのドメイン + AWS 運用監視ダッシュボード。所有ドメインの WHOIS / SSL / DNS 期限を 1 日 1 回 polling し、期限近接や異常変更を SES でメール通知する。Phase 2 で AWS account 連携によるコスト予測 / 異常スパイク検知に拡張予定。
 
-🌐 https://hookwatch.tommykeyapp.com/ (未デプロイ)
+🌐 https://vigil.tommykeyapp.com/ (未デプロイ)
+
+## ステータス
+
+開発中 (Phase 1 = ドメイン監視)。詳細は [open issues](https://github.com/tommykey-apps/vigil/issues) と `docs/` を参照。
 
 ## 予定スタック
 
 | | |
 |---|---|
-| バックエンド | **Elixir + Phoenix** (LiveView でリアルタイム配信) |
-| フロント | Phoenix LiveView (Svelte 等は使わない予定) |
-| DB | DynamoDB (request 履歴、TTL で自動削除) |
-| コンピュート | 未定 — Lambda Container (BEAM VM) or ECS Fargate |
-| IaC | Terraform |
-| CI/CD | GitHub Actions |
-| 配信 | CloudFront (静的 + API) |
+| フロント / バック | SvelteKit 2 (Svelte 5 runes) |
+| デプロイ | Lambda container image + Lambda Web Adapter + Function URL + CloudFront OAC |
+| Lambda runtime | Node.js 24 / arm64 |
+| DB | DynamoDB single-table (on-demand) |
+| 認証 | GitHub OAuth + DynamoDB session |
+| 監視 cron | EventBridge Scheduler (1 日 1 回) |
+| メール | SES (Easy DKIM + SPF + DMARC) |
+| IaC | Terraform (AWS provider v6 + S3 native lock) |
+| CI/CD | GitHub Actions (OIDC) |
+| ローカル開発 | flox |
+| Observability | Lambda Powertools (TypeScript) |
 
-## 機能予定
+## ドキュメント階層
 
-- ランダムな URL (`/h/{id}`) を払い出し
-- その URL に来た **任意の HTTP request** を記録 (method / headers / body / timestamp / source IP)
-- 管理画面で受信 request を時系列表示
-- 新着は **SSE / WebSocket でリアルタイム push**
-- 履歴は期限付き (7 日) で自動削除
+| 層 | ファイル |
+|---|---|
+| プロジェクト概要 | この README |
+| 構成図 | `docs/architecture.{drawio,png}` |
+| API 基本設計 | `docs/swagger.yaml` (→ GitHub Pages) |
+| 詳細設計 | `docs/design/*.md` |
+| 設計判断 (ADR) | `docs/adr/*.md` |
 
-## 開発ステータス
+## Phase
 
-[open issues](https://github.com/tommykey-apps/hookwatch/issues) を参照。
+- **Phase 1 — ドメイン監視**: WHOIS (RDAP) / SSL / DNS の取得 + 期限近接アラート + ドメイン所有確認 (DNS TXT)
+- **Phase 2 — AWS コスト監視**: cross-account IAM role 連携 + Cost Explorer 月末予測 + Cost Anomaly Detection
