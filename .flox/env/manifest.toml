@@ -1,0 +1,27 @@
+schema-version = "1.11.0"
+
+## Install Packages --------------------------------------------------
+##  $ flox install gum  <- puts a package in [install] section below
+##  $ flox search gum   <- search for a package
+##  $ flox show gum     <- show all versions of a package
+## -------------------------------------------------------------------
+[install]
+nodejs.pkg-path = "nodejs_22"
+pnpm.pkg-path = "pnpm"
+terraform.pkg-path = "terraform"
+awscli2.pkg-path = "awscli2"
+jq.pkg-path = "jq"
+gh.pkg-path = "gh"
+drawio.pkg-path = "drawio"
+xvfb.pkg-path = "xorg.xvfb"
+xvfb-run.pkg-path = "xvfb-run"
+xvfb-run.systems = ["x86_64-linux", "aarch64-linux"]
+
+
+## Other Environment Options -----------------------------------------
+[options]
+systems = [
+  "aarch64-darwin",
+  "aarch64-linux",
+  "x86_64-linux",
+]
