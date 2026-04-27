@@ -20,7 +20,7 @@ export interface WhoisFacts {
 }
 
 interface BootstrapJson {
-	services: [string[], string[]][];
+	services: unknown[];
 }
 
 async function loadBootstrap(): Promise<Map<string, string>> {
@@ -34,10 +34,16 @@ async function loadBootstrap(): Promise<Map<string, string>> {
 
 export function buildTldMap(json: BootstrapJson): Map<string, string> {
 	const map = new Map<string, string>();
-	for (const [tlds, urls] of json.services) {
-		if (!Array.isArray(urls) || urls.length === 0) continue;
-		const base = urls[0].endsWith('/') ? urls[0] : urls[0] + '/';
-		for (const t of tlds) map.set(t.toLowerCase(), base);
+	for (const entry of json.services) {
+		if (!Array.isArray(entry) || entry.length < 2) continue;
+		const [tlds, urls] = entry as [unknown, unknown];
+		if (!Array.isArray(tlds) || !Array.isArray(urls) || urls.length === 0) continue;
+		const firstUrl = urls[0];
+		if (typeof firstUrl !== 'string') continue;
+		const base = firstUrl.endsWith('/') ? firstUrl : firstUrl + '/';
+		for (const t of tlds) {
+			if (typeof t === 'string') map.set(t.toLowerCase(), base);
+		}
 	}
 	return map;
 }
