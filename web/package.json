@@ -9,7 +9,10 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"db:up": "docker compose -f ../docker-compose.yml up -d dynamodb-local",
+		"db:down": "docker compose -f ../docker-compose.yml down",
+		"db:init": "../scripts/init-dynamodb-local.sh"
 	},
 	"devDependencies": {
 		"@fontsource-variable/figtree": "^5.2.10",
@@ -20,6 +23,7 @@
 		"@tailwindcss/vite": "^4.2.4",
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/svelte": "^5.3.1",
+		"@types/node": "^25.6.0",
 		"bits-ui": "^2.18.0",
 		"clsx": "^2.1.1",
 		"jsdom": "^29.1.0",
@@ -31,5 +35,9 @@
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7",
 		"vitest": "^4.1.5"
+	},
+	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.1038.0",
+		"@aws-sdk/lib-dynamodb": "^3.1038.0"
 	}
 }
