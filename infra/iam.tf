@@ -44,7 +44,25 @@ resource "aws_iam_role_policy" "scanner_dynamodb" {
   })
 }
 
-# SES 送信権限は #19 で追加 (今回 scope 外)
+# SES 送信権限 (#19): SES_SENDER 一致時のみ許可
+resource "aws_iam_role_policy" "scanner_ses" {
+  name = "${var.project}-scanner-ses"
+  role = aws_iam_role.scanner_lambda.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["ses:SendEmail", "ses:SendRawEmail"]
+      Resource = [aws_ses_domain_identity.vigil.arn]
+      Condition = {
+        StringEquals = {
+          "ses:FromAddress" = var.alert_sender
+        }
+      }
+    }]
+  })
+}
 
 # --- EventBridge Scheduler role (Lambda invoke 用) -----------------------
 
