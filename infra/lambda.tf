@@ -24,6 +24,9 @@ resource "aws_lambda_function" "scanner" {
     variables = {
       VIGIL_TABLE_NAME = aws_dynamodb_table.vigil.name
       LOG_LEVEL        = "INFO"
+      SES_SENDER       = var.alert_sender
+      SES_REGION       = var.region
+      SES_DRY_RUN      = "true" # 検証完了後 #25 で false に切替
     }
   }
 

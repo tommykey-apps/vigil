@@ -15,3 +15,9 @@ variable "domain" {
   type        = string
   default     = "vigil.tommykeyapp.com"
 }
+
+variable "alert_sender" {
+  description = "SES sender address for vigil alert emails (must match a verified domain identity)"
+  type        = string
+  default     = "notifications@vigil.tommykeyapp.com"
+}

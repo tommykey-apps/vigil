@@ -1,12 +1,14 @@
 import { Logger } from '@aws-lambda-powertools/logger';
 import type { ScheduledHandler } from 'aws-lambda';
-import { putDns, type DnsRow } from './dns-repo';
+import { evaluateAndSendAlerts } from './alert';
+import { getDns, putDns, type DnsRow } from './dns-repo';
 import { lookupDns } from './doh';
 import { listVerifiedDomains, type VerifiedDomain } from './domain-list';
 import { lookupWhois } from './rdap';
-import { putSsl, type SslRow } from './ssl-repo';
+import { getSsl, putSsl, type SslRow } from './ssl-repo';
 import { lookupTls } from './tls';
-import { putWhois, type WhoisRow } from './whois-repo';
+import { getUserEmail } from './user-repo';
+import { getWhois, putWhois, type WhoisRow } from './whois-repo';
 
 const CONCURRENCY = 5;
 const logger = new Logger({ serviceName: 'vigil-scanner' });
@@ -24,6 +26,13 @@ export const handler: ScheduledHandler = async (event) => {
 	logger.info('scanning', { count: domains.length });
 
 	const queue = [...domains];
+	const emailCache = new Map<string, string | null>();
+	const getCachedEmail = async (uid: string): Promise<string | null> => {
+		if (emailCache.has(uid)) return emailCache.get(uid) ?? null;
+		const email = await getUserEmail(uid);
+		emailCache.set(uid, email);
+		return email;
+	};
 
 	const worker = async () => {
 		while (queue.length > 0) {
@@ -101,6 +110,31 @@ export const handler: ScheduledHandler = async (event) => {
 					error: msg
 				};
 				await putDns(d.userId, d.hostname, errorRow).catch(() => {});
+			}
+
+			// ALERT (3 scan の結果を読み戻して評価 → SES 送信 or dry-run)
+			try {
+				const email = await getCachedEmail(d.userId);
+				if (!email) {
+					logger.warn('alert_skip_no_email', { uid: d.userId, host: d.hostname });
+				} else {
+					const [w, s, dnsRow] = await Promise.all([
+						getWhois(d.userId, d.hostname),
+						getSsl(d.userId, d.hostname),
+						getDns(d.userId, d.hostname)
+					]);
+					await evaluateAndSendAlerts(
+						{ userId: d.userId, hostname: d.hostname, email },
+						w,
+						s,
+						dnsRow
+					);
+				}
+			} catch (err) {
+				logger.error('alert_failed', {
+					host: d.hostname,
+					err: (err as Error).message ?? 'unknown'
+				});
 			}
 		}
 	};
