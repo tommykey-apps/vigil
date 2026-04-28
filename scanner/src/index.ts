@@ -1,5 +1,7 @@
 import { Logger } from '@aws-lambda-powertools/logger';
 import type { ScheduledHandler } from 'aws-lambda';
+import { putDns, type DnsRow } from './dns-repo';
+import { lookupDns } from './doh';
 import { listVerifiedDomains, type VerifiedDomain } from './domain-list';
 import { lookupWhois } from './rdap';
 import { putSsl, type SslRow } from './ssl-repo';
@@ -71,6 +73,34 @@ export const handler: ScheduledHandler = async (event) => {
 					error: msg
 				};
 				await putSsl(d.userId, d.hostname, errorRow).catch(() => {});
+			}
+
+			// DNS (RDAP / TLS とは独立した try/catch)
+			const dnsAt = Math.floor(Date.now() / 1000);
+			try {
+				const facts = await lookupDns(d.hostname);
+				const row: DnsRow = { ...facts, updated_at: dnsAt };
+				await putDns(d.userId, d.hostname, row);
+				logger.info('dns_ok', {
+					host: d.hostname,
+					dnssec: facts.dnssec_ad,
+					a_count: facts.a.length
+				});
+			} catch (err) {
+				const msg = (err as Error).message ?? 'unknown';
+				logger.warn('dns_failed', { host: d.hostname, msg });
+				const errorRow: DnsRow = {
+					a: [],
+					aaaa: [],
+					ns: [],
+					mx: [],
+					txt: [],
+					caa: [],
+					dnssec_ad: false,
+					updated_at: dnsAt,
+					error: msg
+				};
+				await putDns(d.userId, d.hostname, errorRow).catch(() => {});
 			}
 		}
 	};
