@@ -64,11 +64,11 @@ jobs:
     secrets: inherit
 
   deploy-web:
+    # TODO(#21): web Lambda + ECR repo を Terraform で定義するまで disable。
+    # PR-C で web Lambda が provision されたら if 条件を deploy-scanner と
+    # 同形に戻す。
+    if: false
     needs: [detect, deploy-infra]
-    if: |
-      always() &&
-      (needs.detect.outputs.web == 'true' || github.event_name == 'workflow_dispatch') &&
-      (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped')
     uses: ./.github/workflows/_deploy-image.yaml
     with:
       directory: web

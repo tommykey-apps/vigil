@@ -37,6 +37,10 @@ jobs:
           context: ${{ inputs.directory }}
           platforms: linux/arm64
           push: true
+          # AWS Lambda は OCI manifest list を受け付けないため Docker manifest に固定
+          # (buildx の default `provenance: max` だと manifest index が作られる)
+          provenance: false
+          sbom: false
           tags: |
             ${{ steps.ecr.outputs.registry }}/${{ inputs.ecr-repo }}:${{ github.sha }}
             ${{ steps.ecr.outputs.registry }}/${{ inputs.ecr-repo }}:latest
