@@ -1,4 +1,6 @@
 import { Logger } from '@aws-lambda-powertools/logger';
+import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
+import middy from '@middy/core';
 import type { ScheduledHandler } from 'aws-lambda';
 import { evaluateAndSendAlerts } from './alert';
 import { getDns, putDns, type DnsRow } from './dns-repo';
@@ -13,7 +15,7 @@ import { getWhois, putWhois, type WhoisRow } from './whois-repo';
 const CONCURRENCY = 5;
 const logger = new Logger({ serviceName: 'vigil-scanner' });
 
-export const handler: ScheduledHandler = async (event) => {
+const baseHandler: ScheduledHandler = async (event) => {
 	logger.info('scanner invoked', { event });
 
 	let domains: VerifiedDomain[];
@@ -143,7 +145,13 @@ export const handler: ScheduledHandler = async (event) => {
 	logger.info('scan_complete');
 };
 
+// Powertools Logger を middy で wrap (cold_start + requestId 自動付与、
+// clearState=true で前回 invocation の persistent keys 残留を防止)
+export const handler = middy(baseHandler).use(
+	injectLambdaContext(logger, { logEvent: false, clearState: true })
+);
+
 // ローカル手動 invoke (`pnpm -C scanner dev`)
 if (import.meta.url === `file://${process.argv[1]}`) {
-	void handler({} as never, {} as never, () => {});
+	void handler({} as never, {} as never);
 }

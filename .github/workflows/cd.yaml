@@ -1,0 +1,96 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: ap-northeast-1
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.f.outputs.web }}
+      scanner: ${{ steps.f.outputs.scanner }}
+      infra: ${{ steps.f.outputs.infra }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: f
+        with:
+          base: main
+          filters: |
+            web:     ['web/**']
+            scanner: ['scanner/**']
+            infra:   ['infra/**', '.github/workflows/**']
+
+  deploy-infra:
+    needs: detect
+    if: needs.detect.outputs.infra == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25 # SES verification 待ちを許容
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+      - run: terraform -chdir=infra init
+      - env:
+          TF_VAR_github_oauth_client_id: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+          TF_VAR_github_oauth_client_secret: ${{ secrets.GH_OAUTH_CLIENT_SECRET }}
+        run: terraform -chdir=infra apply -auto-approve -input=false
+
+  deploy-scanner:
+    needs: [detect, deploy-infra]
+    if: |
+      always() &&
+      (needs.detect.outputs.scanner == 'true' || github.event_name == 'workflow_dispatch') &&
+      (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped')
+    uses: ./.github/workflows/_deploy-image.yaml
+    with:
+      directory: scanner
+      function-name: vigil-scanner
+      ecr-repo: vigil-scanner
+    secrets: inherit
+
+  deploy-web:
+    needs: [detect, deploy-infra]
+    if: |
+      always() &&
+      (needs.detect.outputs.web == 'true' || github.event_name == 'workflow_dispatch') &&
+      (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped')
+    uses: ./.github/workflows/_deploy-image.yaml
+    with:
+      directory: web
+      function-name: vigil-web
+      ecr-repo: vigil-web
+    secrets: inherit
+
+  invalidate-cf:
+    needs: deploy-web
+    if: needs.deploy-web.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - id: dist
+        run: |
+          ID=$(aws ssm get-parameter --name /vigil/cloudfront_distribution_id \
+                 --query 'Parameter.Value' --output text)
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+      - run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ steps.dist.outputs.id }}" \
+            --paths '/*'
