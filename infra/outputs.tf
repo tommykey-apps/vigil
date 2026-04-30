@@ -37,3 +37,13 @@ output "scanner_dlq_arn" {
   description = "SQS DLQ ARN for scanner schedule failures"
   value       = aws_sqs_queue.scanner_dlq.arn
 }
+
+output "github_actions_deploy_role_arn" {
+  description = "IAM role ARN for GitHub Actions main-push deploy (configure-aws-credentials)"
+  value       = aws_iam_role.github_actions_deploy.arn
+}
+
+output "github_actions_pr_role_arn" {
+  description = "IAM role ARN for GitHub Actions PR-time terraform plan (read-only)"
+  value       = aws_iam_role.github_actions_pr.arn
+}

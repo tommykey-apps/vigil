@@ -96,3 +96,103 @@ pnpm -C scanner typecheck                   # scanner Lambda
 ```
 
 `AWS_ENDPOINT_URL` を外すと DynamoDB Local 依存テストは skip される。
+
+## CI/CD (GitHub Actions OIDC)
+
+本リポは **GitHub Actions OIDC** で AWS にデプロイする (IAM Access Key は使わない)。
+PR 時は `terraform plan` を PR にコメント、main push 時は paths-filter で
+`web` / `scanner` / `infra` に分けて並列デプロイ。
+
+### 初回 bootstrap (1 回だけ手動)
+
+`infra/oidc.tf` で OIDC provider + role を Terraform 管理にしているが、
+Terraform 自身を CI 経由で apply するために卵鶏問題がある。最初の 1 回だけ
+手動で provider と role を作成し、`terraform import` で管理に取り込む。
+
+```sh
+ACCT=$(aws sts get-caller-identity --query Account --output text)
+
+# 1. OIDC provider
+aws iam create-open-id-connect-provider \
+  --url https://token.actions.githubusercontent.com \
+  --client-id-list sts.amazonaws.com
+
+# 2. deploy role (main push 用、PoC で AdministratorAccess 強権限)
+cat > /tmp/trust-deploy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {"Federated": "arn:aws:iam::${ACCT}:oidc-provider/token.actions.githubusercontent.com"},
+    "Action": "sts:AssumeRoleWithWebIdentity",
+    "Condition": {
+      "StringEquals": {
+        "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+        "token.actions.githubusercontent.com:sub": "repo:tommykey-apps/vigil:ref:refs/heads/main"
+      }
+    }
+  }]
+}
+EOF
+aws iam create-role --role-name vigil-github-actions-deploy \
+  --assume-role-policy-document file:///tmp/trust-deploy.json
+aws iam put-role-policy --role-name vigil-github-actions-deploy \
+  --policy-name vigil-deploy-admin \
+  --policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":"*","Resource":"*"}]}'
+
+# 3. PR role (read-only + S3 backend RW)
+cat > /tmp/trust-pr.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {"Federated": "arn:aws:iam::${ACCT}:oidc-provider/token.actions.githubusercontent.com"},
+    "Action": "sts:AssumeRoleWithWebIdentity",
+    "Condition": {
+      "StringEquals": {"token.actions.githubusercontent.com:aud": "sts.amazonaws.com"},
+      "StringLike":   {"token.actions.githubusercontent.com:sub": "repo:tommykey-apps/vigil:pull_request"}
+    }
+  }]
+}
+EOF
+aws iam create-role --role-name vigil-github-actions-pr \
+  --assume-role-policy-document file:///tmp/trust-pr.json
+aws iam attach-role-policy --role-name vigil-github-actions-pr \
+  --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess
+aws iam put-role-policy --role-name vigil-github-actions-pr \
+  --policy-name vigil-pr-tfstate \
+  --policy-document "$(cat <<EOF
+{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetObject","s3:PutObject","s3:DeleteObject","s3:ListBucket"],"Resource":["arn:aws:s3:::tommykeyapp-tfstate","arn:aws:s3:::tommykeyapp-tfstate/vigil/*"]}]}
+EOF
+)"
+
+# 4. GitHub Secrets に登録
+gh secret set AWS_DEPLOY_ROLE_ARN -b "arn:aws:iam::${ACCT}:role/vigil-github-actions-deploy"
+gh secret set AWS_PR_ROLE_ARN     -b "arn:aws:iam::${ACCT}:role/vigil-github-actions-pr"
+# prod GitHub OAuth App は #25 で作成、その時点で値が決まる
+gh secret set GH_OAUTH_CLIENT_ID     -b "(prod OAuth App ID、#25 で設定)"
+gh secret set GH_OAUTH_CLIENT_SECRET -b "(prod OAuth App secret、#25 で設定)"
+```
+
+### PR-A merge 後に Terraform 管理へ移行
+
+`oidc.tf` が apply されると既存リソースと衝突するので、merge 直後に手動で import:
+
+```sh
+cd infra
+ACCT=$(aws sts get-caller-identity --query Account --output text)
+flox activate -- terraform import aws_iam_openid_connect_provider.github \
+  arn:aws:iam::${ACCT}:oidc-provider/token.actions.githubusercontent.com
+flox activate -- terraform import aws_iam_role.github_actions_deploy vigil-github-actions-deploy
+flox activate -- terraform import aws_iam_role.github_actions_pr     vigil-github-actions-pr
+flox activate -- terraform plan   # diff が小さいことを確認 (assume_role_policy / attached policies 等)
+flox activate -- terraform apply  # 残り attached policy 等を反映
+```
+
+### Workflows 構成
+
+| File | Trigger | Jobs |
+|---|---|---|
+| `.github/workflows/ci.yaml` | PR / merge_group | `detect` → `test-scanner` / `test-web` / `tf-plan` (paths-filter で条件分岐) |
+| `.github/workflows/cd.yaml` | main push / `workflow_dispatch` | `detect` → `deploy-infra` → `deploy-scanner` / `deploy-web` (reusable) → `invalidate-cf` |
+| `.github/workflows/_deploy-image.yaml` | `workflow_call` | image build → ECR push → `lambda update-function-code` → `lambda wait function-updated` |
