@@ -28,8 +28,11 @@ jobs:
     env:
       AWS_ENDPOINT_URL: http://localhost:8000
       AWS_DEFAULT_REGION: ap-northeast-1
-      AWS_ACCESS_KEY_ID: local
-      AWS_SECRET_ACCESS_KEY: local
+      # scripts/init-dynamodb-local.sh が AWS_ACCESS_KEY_ID=test を export するため
+      # tbls diff も同じ credential で接続する必要がある (DynamoDB Local は -sharedDb なしだと
+      # credential ごとに別 DB として扱うため)。
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
       TBLS_VERSION: v1.94.5
     steps:
       - uses: actions/checkout@v4

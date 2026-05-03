@@ -33,15 +33,15 @@ $(TBLS):
 db-docs: db $(TBLS) ## Generate DynamoDB schema docs (docs/db/schema/)
 	@AWS_ENDPOINT_URL=http://localhost:8000 \
 		AWS_DEFAULT_REGION=ap-northeast-1 \
-		AWS_ACCESS_KEY_ID=local \
-		AWS_SECRET_ACCESS_KEY=local \
+		AWS_ACCESS_KEY_ID=test \
+		AWS_SECRET_ACCESS_KEY=test \
 		$(TBLS) doc --force
 
 db-docs-diff: db $(TBLS) ## Show diff between docs/db/schema/ and live DynamoDB Local
 	@AWS_ENDPOINT_URL=http://localhost:8000 \
 		AWS_DEFAULT_REGION=ap-northeast-1 \
-		AWS_ACCESS_KEY_ID=local \
-		AWS_SECRET_ACCESS_KEY=local \
+		AWS_ACCESS_KEY_ID=test \
+		AWS_SECRET_ACCESS_KEY=test \
 		$(TBLS) diff
 
 # ── Cleanup ──
