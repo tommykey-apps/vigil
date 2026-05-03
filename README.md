@@ -26,13 +26,14 @@ Indie hacker 向けのドメイン + AWS 運用監視ダッシュボード。所
 
 ## ドキュメント階層
 
-| 層 | ファイル |
-|---|---|
-| プロジェクト概要 | この README |
-| 構成図 | `docs/architecture.{drawio,png}` |
-| API 基本設計 | `docs/swagger.yaml` (→ GitHub Pages) |
-| 詳細設計 | `docs/design/*.md` |
-| 設計判断 (ADR) | `docs/adr/*.md` |
+| 層 | ファイル | 状態 |
+|---|---|---|
+| プロジェクト概要 | この README | ✓ |
+| DB スキーマ | [`docs/db/`](docs/db/index.md) ([Pages](https://tommykey-apps.github.io/vigil/db/)) | ✓ |
+| 構成図 | `docs/architecture.{drawio,png}` | 未作成 |
+| API 基本設計 | `docs/swagger.yaml` | 未作成 |
+| 詳細設計 | `docs/design/*.md` | 未作成 |
+| 設計判断 (ADR) | `docs/adr/*.md` | 未作成 |
 
 ## Phase
 

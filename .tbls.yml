@@ -1,0 +1,52 @@
+# tbls configuration for DynamoDB schema documentation.
+#
+# IMPORTANT: tbls の DynamoDB driver は DSN クエリの endpoint パラメータを認識しない。
+# DynamoDB Local に接続するには AWS_ENDPOINT_URL=http://localhost:8000 を環境変数で
+# 併用すること。Makefile の `db-docs` ターゲット経由で実行するのが正規の手順。
+#
+# `tbls doc` を素手で打つと AWS 本番に誤接続する可能性があるため、必ず `make db-docs`
+# を使うこと。詳細は docs/db/index.md。
+
+dsn: dynamo://ap-northeast-1?aws_access_key_id=local&aws_secret_access_key=local
+
+docPath: docs/db/schema
+
+format:
+  adjust: true
+  sort: false
+
+include:
+  - vigil
+
+# tbls の DynamoDB driver は DescribeTable の AttributeDefinitions しかカラム化しない。
+# このテーブルは pk/sk/gsi1pk/gsi1sk の 4 属性 (= GSI 用含む) しか宣言されていないため、
+# 自動生成されるカラム表は 4 行だけになる。実アイテムの属性 (display_name, expires_at,
+# verify_token, ttl 等) は出力されない。TTL 属性 (ttl) も AttributeDefinitions に含まれない。
+# よって意味のある補足は以下の comments と、docs/db/entities.md / access-patterns.md
+# (手書き) に書く。
+comments:
+  - table: vigil
+    tableComment: |
+      Single-table design with GSI 1. 7 logical entities (User Profile / Session / Domain /
+      Domain WHOIS / SSL / DNS / Alert) are stored under different PK/SK prefixes.
+      TTL on `ttl` attribute (Unix timestamp) for session expiry. GSI 1 (gsi1pk/gsi1sk) is
+      reserved for Phase 2 features (cross-user queries). See ../entities.md and
+      ../access-patterns.md for full attribute definitions.
+    columnComments:
+      pk: |
+        Partition key. Prefix determines the entity scope:
+          USER#{userId}        User-scoped data (Profile / Domain / Domain sub-rows)
+          SESSION#{sessionId}  Session metadata (TTL deletion)
+      sk: |
+        Sort key. Prefix determines the entity type:
+          PROFILE                                User profile (single per user)
+          META                                   Session metadata
+          DOMAIN#{hostname}                      Domain (parent row)
+          DOMAIN#{hostname}#WHOIS                WHOIS scan result
+          DOMAIN#{hostname}#SSL                  SSL/TLS certificate scan result
+          DOMAIN#{hostname}#DNS                  DNS scan result
+          DOMAIN#{hostname}#ALERT#{kind}         Alert state (e.g. WHOIS_EXPIRY_30D)
+      gsi1pk: |
+        GSI 1 partition key. Reserved for Phase 2 features (e.g. cost monitoring queries).
+      gsi1sk: |
+        GSI 1 sort key. Reserved for Phase 2 features.

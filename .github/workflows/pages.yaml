@@ -1,0 +1,55 @@
+name: Deploy Docs to GitHub Pages
+
+# Jekyll で docs/db/ を HTML 化して GitHub Pages にデプロイ。
+# 将来 swagger / docs/design/*.md / docs/adr/*.md を追加する時は、
+# それぞれ Jekyll ビルドステップを追加して _site/ にマージする。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pages を初回有効化する (vigil は repo 設定で未有効化なので enablement: true で workflow 経由で有効化)
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs/db
+          destination: ./_jekyll_db
+
+      - name: Prepare Pages content
+        run: |
+          mkdir -p _site
+          cp -r _jekyll_db _site/db
+
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
