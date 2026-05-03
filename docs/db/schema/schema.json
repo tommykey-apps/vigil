@@ -1,0 +1,67 @@
+{
+  "name": "Amazon DynamoDB (ap-northeast-1)",
+  "tables": [
+    {
+      "name": "vigil",
+      "type": "BASIC TABLE",
+      "comment": "Single-table design with GSI 1. 7 logical entities (User Profile / Session / Domain /\nDomain WHOIS / SSL / DNS / Alert) are stored under different PK/SK prefixes.\nTTL on `ttl` attribute (Unix timestamp) for session expiry. GSI 1 (gsi1pk/gsi1sk) is\nreserved for Phase 2 features (cross-user queries). See ../entities.md and\n../access-patterns.md for full attribute definitions.\n",
+      "columns": [
+        {
+          "name": "pk",
+          "type": "S",
+          "nullable": false,
+          "comment": "Partition key. Prefix determines the entity scope:\n  USER#{userId}        User-scoped data (Profile / Domain / Domain sub-rows)\n  SESSION#{sessionId}  Session metadata (TTL deletion)\n"
+        },
+        {
+          "name": "sk",
+          "type": "S",
+          "nullable": false,
+          "comment": "Sort key. Prefix determines the entity type:\n  PROFILE                                User profile (single per user)\n  META                                   Session metadata\n  DOMAIN#{hostname}                      Domain (parent row)\n  DOMAIN#{hostname}#WHOIS                WHOIS scan result\n  DOMAIN#{hostname}#SSL                  SSL/TLS certificate scan result\n  DOMAIN#{hostname}#DNS                  DNS scan result\n  DOMAIN#{hostname}#ALERT#{kind}         Alert state (e.g. WHOIS_EXPIRY_30D)\n"
+        },
+        {
+          "name": "gsi1pk",
+          "type": "S",
+          "nullable": false,
+          "comment": "GSI 1 partition key. Reserved for Phase 2 features (e.g. cost monitoring queries).\n"
+        },
+        {
+          "name": "gsi1sk",
+          "type": "S",
+          "nullable": false,
+          "comment": "GSI 1 sort key. Reserved for Phase 2 features.\n"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "gsi1",
+          "def": "GlobalSecondaryIndex { [{ AttributeName: \"gsi1pk\", KeyType: \"HASH\" } { AttributeName: \"gsi1sk\", KeyType: \"RANGE\" }], { ProjectionType: \"ALL\" } }",
+          "table": null,
+          "columns": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Primary Key",
+          "type": "Partition key and sort key",
+          "def": "[{ AttributeName: \"pk\", KeyType: \"HASH\" } { AttributeName: \"sk\", KeyType: \"RANGE\" }]",
+          "table": null,
+          "columns": [
+            "pk",
+            "sk"
+          ]
+        }
+      ]
+    }
+  ],
+  "driver": {
+    "name": "dynamodb",
+    "meta": {
+      "dict": {
+        "Column": "Attribute",
+        "Columns": "Attributes",
+        "Constraints": "Primary Key",
+        "Indexes": "Secondary Indexes"
+      }
+    }
+  }
+}

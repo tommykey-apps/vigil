@@ -1,0 +1,60 @@
+name: DB Schema Docs Drift
+
+# tbls diff で docs/db/schema/ と live DynamoDB Local の差分を検出する。
+# 守備範囲: PK/SK/GSI の型変更 / テーブル追加削除 / .tbls.yml の comment 変更が
+# 反映されてないケース。手書きの entities.md / access-patterns.md は対象外。
+
+on:
+  pull_request:
+    paths:
+      - "infra/dynamodb.tf"
+      - "scanner/src/ddb.ts"
+      - "scanner/src/*-repo.ts"
+      - "web/src/lib/server/ddb.ts"
+      - "web/src/lib/server/*-repo.ts"
+      - "web/src/lib/server/session.ts"
+      - ".tbls.yml"
+      - "docs/db/schema/**"
+      - ".github/workflows/db-docs.yaml"
+  workflow_dispatch:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    services:
+      dynamodb:
+        image: amazon/dynamodb-local:latest
+        ports: ["8000:8000"]
+    env:
+      AWS_ENDPOINT_URL: http://localhost:8000
+      AWS_DEFAULT_REGION: ap-northeast-1
+      # scripts/init-dynamodb-local.sh が AWS_ACCESS_KEY_ID=test を export するため
+      # tbls diff も同じ credential で接続する必要がある (DynamoDB Local は -sharedDb なしだと
+      # credential ごとに別 DB として扱うため)。
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      TBLS_VERSION: v1.94.5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for DynamoDB Local
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:8000 > /dev/null && exit 0
+            sleep 1
+          done
+          echo "DynamoDB Local did not start within 30s"
+          exit 1
+
+      # GSI 込みのテーブル作成は scripts/init-dynamodb-local.sh で一元化済 (Makefile の db ターゲットも同じ script を使う)
+      - name: Create table
+        run: bash scripts/init-dynamodb-local.sh
+
+      - name: Install tbls
+        run: |
+          curl -sSL "https://github.com/k1LoW/tbls/releases/download/${TBLS_VERSION}/tbls_${TBLS_VERSION}_linux_amd64.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin tbls
+          tbls version
+
+      - name: Check drift (tbls diff)
+        run: tbls diff

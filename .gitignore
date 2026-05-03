@@ -1,0 +1,33 @@
+# OS
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+
+# Node
+node_modules/
+*.log
+
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/*.tfvars
+infra/.terraform.lock.hcl
+
+# Environment
+.env
+
+# Playwright MCP (visual snapshots from MCP browser tool)
+.playwright-mcp/
+
+# Local tool binaries (tbls, etc.)
+bin/
+
+# Flox
+.flox/run/
+.flox/cache/
+.flox/log/
